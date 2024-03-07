@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
+
+@if (IsVisible)
+{
+    <div class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>@Title</h3>
+                <button class="close-button" @onclick="CloseModal">X</button>
+            </div>
+            <div class="modal-body">
+                <p>@MessageModal</p>
+            </div>
+            <div class="modal-footer">
+                <button @onclick="CloseModal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string MessageModal { get; set; }
+
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private void CloseModal()
+    {
+        IsVisible = false;
+        OnClose.InvokeAsync();
+    }
+}

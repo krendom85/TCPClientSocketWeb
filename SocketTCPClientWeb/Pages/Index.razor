@@ -1,0 +1,154 @@
+﻿@using SocketTCPClientWeb.EthernetInterface.Buffer
+@using SocketTCPClientWeb.EthernetInterface.SocketClient
+@using System.Net
+
+@page "/"
+
+<h1>Cliente Socket</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col50">
+            <h3>Configuración del Socket</h3>
+            <label>IP:</label>
+            <input @bind="IpAddress" />
+            <label>Puerto:</label>
+            <input @bind="Port" />
+            <div class="row">
+                <div class="col">
+                    <button class="@ColorTextConnected" @onclick="Connect" disabled="@IsConnect">Conectar</button>
+                </div>
+                <div class="col">
+                    <button class="@ColorTextDisconnected" @onclick="Disconnect" disabled="@(!IsConnect)">Desconectar</button>
+                </div>
+            </div>
+     
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col">
+            <h3>Datos a enviar por Socket</h3>
+            <textarea @bind="MessageToSend"></textarea>
+            <button @onclick="SendMessage">Enviar</button>
+        </div>
+        <div class="col">
+            <h3>Datos recibidos por Socket</h3>
+            <textarea @bind="ReceivedMessage"></textarea>
+            <button @onclick="SendMessageReceived">Limpiar</button>
+        </div>
+    </div>
+</div>
+
+<Message Title="Mensaje" Message="@modalMessage" IsVisible="@isModalVisible" OnClose="HideModal" />
+
+@code {
+    private string IpAddress { get; set; }
+    private int Port { get; set; }
+    private string MessageToSend { get; set; }
+    private string ReceivedMessage { get; set; }
+
+    private bool IsConnect { get; set; } = false;
+
+    private string ColorTextConnected { get; set; } = "button-active";
+    private string ColorTextDisconnected { get; set; } = "button-deactive";
+
+
+    SoketClient socket = new SoketClient();
+
+
+    bool isModalVisible = false;
+    string modalMessage = "¡Hola! Este es un mensaje modal.";
+
+    void ShowModal()
+    {
+        isModalVisible = true;
+    }
+
+    void HideModal()
+    {
+        isModalVisible = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        socket.SocketBytesReceivedClientEvent += MessageClient;
+    }
+
+
+    private async Task Connect()
+    {
+        if (string.IsNullOrEmpty(IpAddress) && IsValidIP(IpAddress))
+        {
+            return;
+        }
+
+        if(Port <= 0)
+        {
+            return;
+        }
+
+        if(socket.SocketConnection(IpAddress, Port))
+        {
+            
+            IsConnect = true;
+            ColorTextConnected = "button-deactive";
+            ColorTextDisconnected = "button-active";
+            ShowModal();
+        }
+        else
+        {
+            socket.SocketClose();
+            IsConnect = false;
+            ColorTextConnected = "button-active";
+            ColorTextDisconnected = "button-deactive";
+        }
+        StateHasChanged();
+    }
+
+    private async Task Disconnect()
+    {
+        socket.SocketClose();
+        IsConnect = false;
+        ColorTextConnected = "button-active";
+        ColorTextDisconnected = "button-deactive";
+        StateHasChanged();
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrEmpty(MessageToSend))
+        {
+            return;
+        }
+        socket.SocketSendString(MessageToSend,MessageToSend.Length);
+        MessageToSend = string.Empty;
+    }
+
+    public void MessageClient(object sender, SocketBuffer e)
+    {
+        string message = System.Text.Encoding.ASCII.GetString(e.Buffer, 0, (int)e.Size) + Environment.NewLine;
+        InvokeAsync(() =>
+        {
+            ReceivedMessage += message;
+            StateHasChanged();
+        });
+    }
+
+    private async Task ClearMessageSend()
+    {
+        MessageToSend = string.Empty;
+    }
+
+    private async Task SendMessageReceived()
+    {
+        ReceivedMessage = string.Empty;
+    }
+
+    private bool IsValidIP(string ip)
+    {
+        IPAddress ipAddress;
+        return IPAddress.TryParse(ip, out ipAddress);
+    }
+}
