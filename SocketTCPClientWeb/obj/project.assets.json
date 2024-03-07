@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chris\\source\\repos\\SocketTCPClientWeb\\SocketTCPClientWeb\\SocketTCPClientWeb.csproj",
+      "projectUniqueName": "C:\\Users\\chris\\source\\repos\\SocketTCPClientWeb\\TCPClientSocketWeb\\SocketTCPClientWeb\\SocketTCPClientWeb.csproj",
       "projectName": "SocketTCPClientWeb",
-      "projectPath": "C:\\Users\\chris\\source\\repos\\SocketTCPClientWeb\\SocketTCPClientWeb\\SocketTCPClientWeb.csproj",
+      "projectPath": "C:\\Users\\chris\\source\\repos\\SocketTCPClientWeb\\TCPClientSocketWeb\\SocketTCPClientWeb\\SocketTCPClientWeb.csproj",
       "packagesPath": "C:\\Users\\chris\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chris\\source\\repos\\SocketTCPClientWeb\\SocketTCPClientWeb\\obj\\",
+      "outputPath": "C:\\Users\\chris\\source\\repos\\SocketTCPClientWeb\\TCPClientSocketWeb\\SocketTCPClientWeb\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

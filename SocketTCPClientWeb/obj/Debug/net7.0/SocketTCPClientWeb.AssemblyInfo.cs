@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SocketTCPClientWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c972ea0b0c1744c6f8028c638e34819eae01f3d8")]
 [assembly: System.Reflection.AssemblyProductAttribute("SocketTCPClientWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SocketTCPClientWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
